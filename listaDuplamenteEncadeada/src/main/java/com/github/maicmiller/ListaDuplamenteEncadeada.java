@@ -31,6 +31,26 @@ public class ListaDuplamenteEncadeada<T> {
         tamanhoLista++;
     }
 
+    public void add(int index, T elemento){
+        NoDuplo<T> noAuxiliar = getNo(index);
+        NoDuplo<T> novoNo = new NoDuplo<>(elemento);
+        novoNo.setNoPrevio(noAuxiliar);
+
+        if (novoNo.getNoProximo() != null){ // Fazendo uma inserção no meio da lista...
+            novoNo.setNoProximo(noAuxiliar.getNoPrevio());
+            novoNo.getNoProximo().setNoPrevio(novoNo);
+        }else{
+            novoNo.setNoPrevio(ultimoNo);
+            ultimoNo = novoNo;
+        }
+        if (index == 0){ // Se o índice for igual a zero o nó auxiliar é o primeiro nó...
+            primeiroNo = novoNo;
+        }else{
+            novoNo.getNoPrevio().setNoProximo(novoNo);
+        }
+        tamanhoLista++;
+    }
+
     private NoDuplo<T> getNo(int index){
         NoDuplo<T> noAuxiliar = primeiroNo; // O nó auxiliar recebe o primeiro nó, ou seja começa do primeiro nó...
         for (int i =0; (i < index) && (noAuxiliar != null); i++){ // Enquanto isso for true, o laço continua a percorrer e avançar na milha lista...
